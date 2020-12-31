@@ -26,12 +26,16 @@ const getJoke = (numberOfJokes, res) => {
       .then(response => {
       const joke = response.data
       res.json(joke)
+      }).catch(err => {
+      console.error(err)
     })
   } else if (numberOfJokes == "10" || numberOfJokes == "ten") {
       axios.get('https://official-joke-api.appspot.com/jokes/programming/ten')
       .then(response => {
       const joke = response.data
       res.json(joke)
+      }).catch(err => {
+      console.error(err)
     })
   }
 }
@@ -60,6 +64,30 @@ app.get('/math/:type/:num1/:num2', (req, res) => {
   } else {
     res.json({error: "unable to calculate"})
   }
+})
+
+app.get('/wikipedia', (req, res) => {
+  let url = 'https://en.wikipedia.org/wiki/HTML'
+  axios.get(url)
+    .then(response => {
+      let html = response.data
+      html = html.split('HTML').join("DOLPHIN MARKUP")
+      res.send(html)
+    }).catch(err => {
+    console.error(err)
+  })
+})
+
+app.get('*', (req, res) => {
+  res.send(`<html>
+<head>
+  <title>Not Found!</title>
+</head>
+<body>
+  <h1>There's nothing here 😢</h1>
+  <h3>Please leave us alone...</h3>
+</body>
+</html>`)
 })
 
 
